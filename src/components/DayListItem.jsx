@@ -4,12 +4,12 @@ import classNames from 'classnames';
 
 const DayListItem = (props) => {
   const { name, spots, selected, setDay } = props;
-  let message;
   const dayClass = classNames({
     'day-list__item': true,
     'day-list__item--selected': selected,
     'day-list__item--full': spots === 0
   });
+  let message;
   if (spots === 0) {
     message = 'no spots remaining';
   } else if (spots === 1) {
