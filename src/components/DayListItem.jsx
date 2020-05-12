@@ -18,7 +18,7 @@ const DayListItem = (props) => {
     message = `${spots} spots remaining`;
   }
   return (
-    <li className={dayClass} onClick={() => setDay(name)}>
+    <li className={dayClass} onClick={setDay}>
       <h2 className="text--regular">{ name }</h2> 
       <h3 className="text--light">{message}</h3>
     </li>

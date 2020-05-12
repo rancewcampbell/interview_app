@@ -12,7 +12,7 @@ const DayList = (props) => {
             name={day.name}
             spots={day.spots}
             selected={day.name === props.day}
-            setDay={setDay}
+            setDay={event => setDay(day.name)}
           />
         )
       })}
