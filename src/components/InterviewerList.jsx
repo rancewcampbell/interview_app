@@ -3,7 +3,7 @@ import InterviewerListItem from './InterviewerListItem';
 import './InterviewerList.scss'
 
 const InterviewerList = (props) => {
-  const { value, interviewers, onChange } = props;
+  const { value, interviewers, setInterviewer } = props;
   return (
     <section className="interviewers">
       <h4 className="interviewers__header text--light">Interviewer</h4>
@@ -15,7 +15,7 @@ const InterviewerList = (props) => {
             name={interviewer.name}
             avatar={interviewer.avatar}
             selected={interviewer.id === value}
-            setInterviewer={event => onChange(interviewer.id)}
+            setInterviewer={event => setInterviewer(interviewer.id)}
             />
           )
         })}
