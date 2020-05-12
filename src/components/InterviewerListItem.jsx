@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import './InterviewerListItem.scss';
 
 const InterviewerListItem = (props) => {
-  const { id, name, avatar, selected, setInterviewer } = props;
+  const { name, avatar, selected, setInterviewer } = props;
   const interviewersClass = classNames({
     'interviewers__item': true,
     'interviewers__item--selected': selected, 
@@ -20,7 +20,7 @@ const InterviewerListItem = (props) => {
         src={avatar}
         alt={name}
       />
-      {name}
+      {selected? name : ''}
     </li>
   )
 };
