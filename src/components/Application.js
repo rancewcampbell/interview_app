@@ -68,7 +68,7 @@ const appointments = [
   }
 
 ];
-const Application= (props) => {
+const Application= () => {
   const [day, setDay] = useState('Monday');
   return (
     <main className="layout">

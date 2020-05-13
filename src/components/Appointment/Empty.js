@@ -1,7 +1,6 @@
 import React from 'react'
 
-const Empty = (props) => {
-  const { onAdd } = props;
+const Empty = ({ onAdd }) => {
   return (
     <main className="appointment__add">
       <img

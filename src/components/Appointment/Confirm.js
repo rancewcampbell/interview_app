@@ -1,8 +1,7 @@
 import React from 'react';
 import Button from '../Button';
 
-const Confirm = (props) => {
-  const { message, onConfirm, onCancel } = props;
+const Confirm = ({ message, onConfirm, onCancel }) => {
   return (
     <main className="appointment__card appointment__card--confirm">
       <h1 className="text--semi-bold">{message}</h1>

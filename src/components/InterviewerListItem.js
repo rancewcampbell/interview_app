@@ -2,8 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import './InterviewerListItem.scss';
 
-const InterviewerListItem = (props) => {
-  const { name, avatar, selected, setInterviewer } = props;
+const InterviewerListItem = ({ name, avatar, selected, setInterviewer }) => {
   const interviewersClass = classNames({
     'interviewers__item': true,
     'interviewers__item--selected': selected, 

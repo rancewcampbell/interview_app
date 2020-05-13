@@ -1,7 +1,6 @@
 import React from 'react'
 
-const Error = (props) => {
-  const { onClose, message } = props;
+const Error = ({ onClose, message }) => {
   return (
     <main className="appointment__card appointment__card--error">
       <section className="appointment__error-message">

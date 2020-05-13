@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import InterviewerList from '../InterviewerList';
 import Button from '../Button';
 
-const Form = (props) => {
-  const { name, interviewers, interviewer, onSave, onCancel } = props;
+const Form = ({ name, interviewers, interviewer, onSave, onCancel }) => {
   const [studentName, setStudentName] = useState(name || "");
   const [interviewerId, setInterviewerId] = useState(interviewer || null);
   

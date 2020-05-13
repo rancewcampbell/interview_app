@@ -4,8 +4,7 @@ import Show from './Show';
 import Empty from './Empty'
 import './styles.scss';
 
-const Appointment = (props) => {
-  const { time, interview } = props;
+const Appointment = ({ time, interview }) => {
   return (
     <article className="appointment">
       <Header time={time}/>

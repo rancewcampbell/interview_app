@@ -2,8 +2,7 @@ import React from 'react';
 import InterviewerListItem from './InterviewerListItem';
 import './InterviewerList.scss'
 
-const InterviewerList = (props) => {
-  const { value, interviewers, setInterviewer } = props;
+const InterviewerList = ({ value, interviewers, setInterviewer }) => {
   return (
     <section className="interviewers">
       <h4 className="interviewers__header text--light">Interviewer</h4>
