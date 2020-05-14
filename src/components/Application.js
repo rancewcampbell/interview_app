@@ -10,12 +10,23 @@ const Application= () => {
     day: "Monday",
     days: [],
     appointments: {},
-    interviewers: {}
+    interviewers: []
   });
   const { day, days } = state;
   const setDay = day => setState({...state, day});
   const appointments = getAppointmentsForDay(state, day);
-  const interviewers = getInterviewersForDay(state, day);
+  const interviewersForDay = getInterviewersForDay(state, day);
+  const bookInterview = (id, interview) => {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    setState({...state, appointments})
+  }
   useEffect(() => {
     const promise1 = axios.get('http://localhost:8001/api/days');
     const promise2 = axios.get('http://localhost:8001/api/appointments');
@@ -30,7 +41,6 @@ const Application= () => {
           }))
       })
   }, []);
-
   return (
     <main className="layout">
       <section className="sidebar">
@@ -57,7 +67,8 @@ const Application= () => {
         {appointments.map(appointment => (
           <Appointment 
           key={appointment.id}
-          interviewers={interviewers} 
+          interviewers={interviewersForDay}
+          bookInterview={bookInterview} 
           {...appointment}
           />))}
           <Appointment key="last" time="5pm" />
