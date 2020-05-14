@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Appointment from './Appointment/index';
 import DayList from './DayList';
-import { getAppointmentsForDay } from '../helpers/selectors';
+import { getAppointmentsForDay, getInterview } from '../helpers/selectors';
 import 'components/Application.scss';
 
 const Application= () => {
@@ -11,7 +11,7 @@ const Application= () => {
     days: [],
     appointments: {},
     interviewers: {}
-  })
+  });
   const { day, days } = state;
   const setDay = day => setState({...state, day});
   const appointments = getAppointmentsForDay(state, day);
