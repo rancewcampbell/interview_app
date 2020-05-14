@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Appointment from './Appointment/index';
 import DayList from './DayList';
-import { getAppointmentsForDay, getInterview } from '../helpers/selectors';
+import { getAppointmentsForDay } from '../helpers/selectors';
 import 'components/Application.scss';
 
 const Application= () => {
@@ -22,8 +22,8 @@ const Application= () => {
     const promise3 = axios.get('http://localhost:8001/api/interviewers');
     Promise.all([promise1, promise2, promise3])
       .then(all => {
-        setState(prev => (
-          {...prev,
+        setState(state => (
+          {...state,
             days: all[0].data,
             appointments: all[1].data,
             interviewers: all[2].data
