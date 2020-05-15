@@ -26,7 +26,7 @@ const Form = ({ name, interviewers, interviewer, onSave, onCancel }) => {
             className="appointment__create-input text--semi-bold"
             name={name}
             type="text"
-            placeholder="Enter Student Name"
+            placeholder={name || "Enter Student Name"}
             value={studentName}
             onChange={event => setStudentName(event.target.value)}
           />

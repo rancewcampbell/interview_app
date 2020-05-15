@@ -1,22 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from './Header';
-import Show from './Show';
+import Confirm from './Confirm';
 import Empty from './Empty';
+import Error from './Error';
 import Form from './Form';
 import Status from './Status';
-import Confirm from './Confirm';
+import Show from './Show';
 import useVisualMode from '../../hooks/useVisualMode';
 import './styles.scss';
 
-const EMPTY = 'EMPTY';
-const SHOW = 'SHOW';
-const CREATE = 'CREATE';
-const SAVE = 'SAVE';
-const DELETE = 'DELETE';
 const CONFIRM = 'CONFIRM';
+const CREATE = 'CREATE';
+const DELETE = 'DELETE';
+const EMPTY = 'EMPTY';
+const ERROR = 'ERROR';
+const SAVE = 'SAVE';
+const SHOW = 'SHOW';
 
 const Appointment = ({ id, time, interview, interviewers, bookInterview, cancelInterview}) => {
   const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
+  const [ message, setMessage ] = useState('');
   let interviewer;
   if (interviewers) {
     interviewer = interviewers.find(el => interview && el.id === interview.interviewer);
@@ -31,30 +34,44 @@ const Appointment = ({ id, time, interview, interviewers, bookInterview, cancelI
     bookInterview(id, interview)
       .then(() => {
         transition(SHOW);
-      });
+      })
+      .catch(() => {
+        setMessage('Could not save')
+        transition(ERROR, true)
+      })
   };
 
   const confirm = () => {
+    setMessage('Are you sure you would like to delete?')
     transition(CONFIRM)
   };
 
   const deleteInterview = () => {
-    transition(DELETE)
+    transition(DELETE, true)
     cancelInterview(id, interview)
       .then(() => {
         transition(EMPTY)
       })
+      .catch(() => {
+        setMessage('Could not delete');
+        transition(ERROR, true);
+      })
   };
   
+  const edit = () => {
+    transition(CREATE)
+  };
+
   return (
     <article className="appointment">
       <Header time={time}/>
+      {mode === ERROR && <Error onClose={back} message={message}/>}
       {mode === SAVE && <Status message="Saving" />}
       {mode === DELETE && <Status message="Deleting" />}
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === CONFIRM && 
         <Confirm
-          message="Are you sure you would like to delete?"
+          message={message}
           onCancel={back}
           onConfirm={deleteInterview}
         />}
@@ -63,6 +80,7 @@ const Appointment = ({ id, time, interview, interviewers, bookInterview, cancelI
           student={interview.student}
           interviewer={interviewer.name}
           onDelete={confirm}
+          onEdit={edit}
         />
       )}
       {mode === CREATE && (
@@ -70,6 +88,8 @@ const Appointment = ({ id, time, interview, interviewers, bookInterview, cancelI
         interviewers={interviewers}
         onCancel={back}
         onSave={save}
+        name={interview ? interview.student : ''}
+        interviewer={interview ? interview.interviewer : null}
         />
       )}
     </article>
