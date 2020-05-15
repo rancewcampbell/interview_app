@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import updateSpots from '../helpers/updateSpots'
 
 
 const useApplicationData = () => {
@@ -23,12 +24,13 @@ const useApplicationData = () => {
     return (
       axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
         .then(() => {
-          setState(state => {return {...state, appointments}});
+          const days = updateSpots(state, appointments)
+          setState(state => {return {...state, appointments, days}})
         })
     )
   }
 
-  const cancelInterview = (id, interview) => {
+  const cancelInterview = (id) => {
     const appointment = {
       ...state.appointments[id],
       interview: null
@@ -37,10 +39,11 @@ const useApplicationData = () => {
       ...state.appointments,
       [id]: appointment
     };
+    const days = updateSpots(state, appointments)
     return (
       axios.delete(`http://localhost:8001/api/appointments/${id}`)
         .then(() => {
-          setState(state => {return {...state, appointments}})
+          setState(state => {return {...state, appointments, days}})
         }) 
     )
   };
@@ -59,7 +62,6 @@ const useApplicationData = () => {
           }))
       })
   }, []);
-
   return { bookInterview, setDay, cancelInterview, state }
 };
 
