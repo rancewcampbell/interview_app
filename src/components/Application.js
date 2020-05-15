@@ -32,8 +32,25 @@ const Application= () => {
           setState(state => {return {...state, appointments}});
         })
     )
-      
   }
+
+  const cancelInterview = (id, interview) => {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    return (
+      axios.delete(`http://localhost:8001/api/appointments/${id}`)
+        .then(() => {
+          setState(state => {return {...state, appointments}})
+        }) 
+    )
+  };
+
   useEffect(() => {
     const promise1 = axios.get('http://localhost:8001/api/days');
     const promise2 = axios.get('http://localhost:8001/api/appointments');
@@ -75,7 +92,8 @@ const Application= () => {
           <Appointment 
           key={appointment.id}
           interviewers={interviewersForDay}
-          bookInterview={bookInterview} 
+          bookInterview={bookInterview}
+          cancelInterview={cancelInterview}
           {...appointment}
           />))}
           <Appointment key="last" time="5pm" />
