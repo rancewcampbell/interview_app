@@ -1,5 +1,4 @@
 const updateSpots = (state, appointments) => {
-  // console.log('appointments', appointments);
   const originalInterview = state.days.find(d => d.name === state.day);
   const index = state.days.indexOf(originalInterview);
   const spots = originalInterview.appointments.filter(

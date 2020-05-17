@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useCallback } from 'react';
 import axios from 'axios';
 import updateSpots from '../helpers/updateSpots';
 
@@ -39,34 +39,34 @@ const useApplicationData = () => {
     interviewers: [],
   });
   const setDay = day => dispatch({ type: SET_DAY, day });
-  const bookInterview = (id, interview) => {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview },
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment,
-    };
 
+  const updateInterview = useCallback(
+    (id, interview = null) => {
+      const appointment = {
+        ...state.appointments[id],
+        interview: interview ? { ...interview } : null,
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment,
+      };
+      const days = updateSpots(state, appointments);
+      return { days, appointments };
+    },
+    [state]
+  );
+
+  const bookInterview = (id, interview) => {
+    const { days, appointments } = updateInterview(id, interview);
     return axios
       .put(`http://localhost:8001/api/appointments/${id}`, { interview })
       .then(() => {
-        const days = updateSpots(state, appointments);
         dispatch({ type: SET_INTERVIEW, days, appointments });
       });
   };
 
   const cancelInterview = id => {
-    const appointment = {
-      ...state.appointments[id],
-      interview: null,
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment,
-    };
-    const days = updateSpots(state, appointments);
+    const { days, appointments } = updateInterview(id);
     return axios
       .delete(`http://localhost:8001/api/appointments/${id}`)
       .then(() => {
@@ -85,27 +85,13 @@ const useApplicationData = () => {
         appointments: all[1].data,
         interviewers: all[2].data,
       });
-      console.log('initial render');
     });
   }, []);
 
   useEffect(() => {
-    const updateInterview = (id, interview) => {
-      const appointment = {
-        ...state.appointments[id],
-        interview: interview ? { ...interview } : null,
-      };
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment,
-      };
-      const days = updateSpots(state, appointments);
-      return { days, appointments };
-    };
     const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
     socket.onmessage = message => {
       const { type, id, interview } = JSON.parse(message.data);
-      console.log({ type, id, interview });
       if (type === SET_INTERVIEW) {
         const { days, appointments } = updateInterview(id, interview);
         dispatch({ type, days, appointments });
@@ -114,7 +100,7 @@ const useApplicationData = () => {
     return () => {
       socket.close();
     };
-  }, [state]);
+  }, [state, updateInterview]);
 
   return { bookInterview, setDay, cancelInterview, state };
 };
