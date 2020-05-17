@@ -6,7 +6,7 @@ const DayListItem = ({ name, spots, selected, setDay }) => {
   const dayClass = classNames({
     'day-list__item': true,
     'day-list__item--selected': selected,
-    'day-list__item--full': spots === 0
+    'day-list__item--full': spots === 0,
   });
   let message;
 
@@ -17,10 +17,10 @@ const DayListItem = ({ name, spots, selected, setDay }) => {
   } else {
     message = `${spots} spots remaining`;
   }
-  
+
   return (
     <li className={dayClass} onClick={setDay}>
-      <h2 className="text--regular">{ name }</h2> 
+      <h2 className="text--regular">{name}</h2>
       <h3 className="text--light">{message}</h3>
     </li>
   );
