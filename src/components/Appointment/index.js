@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Header from './Header';
 import Confirm from './Confirm';
 import Empty from './Empty';
 import Error from './Error';
 import Form from './Form';
-import Status from './Status';
+import Header from './Header';
 import Show from './Show';
+import Status from './Status';
 import useVisualMode from '../../hooks/useVisualMode';
 import './styles.scss';
 

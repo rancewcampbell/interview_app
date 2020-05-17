@@ -6,6 +6,8 @@ const SET_DAY = 'SET_DAY';
 const SET_APPLICATION_DATA = 'SET_APPLICATION_DATA';
 const SET_INTERVIEW = 'SET_INTERVIEW';
 
+let socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+
 const reducer = (state, action) => {
   switch (action.type) {
     case SET_DAY:
@@ -89,7 +91,6 @@ const useApplicationData = () => {
   }, []);
 
   useEffect(() => {
-    const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
     socket.onmessage = message => {
       const { type, id, interview } = JSON.parse(message.data);
       if (type === SET_INTERVIEW) {
@@ -97,10 +98,21 @@ const useApplicationData = () => {
         dispatch({ type, days, appointments });
       }
     };
+  }, [updateInterview]);
+
+  useEffect(() => {
+    if (socket.readyState > 1) {
+      socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+    }
+
+    socket.onerror = event => {
+      console.error('error:', event);
+    };
+
     return () => {
       socket.close();
     };
-  }, [state, updateInterview]);
+  }, []);
 
   return { bookInterview, setDay, cancelInterview, state };
 };
