@@ -23,6 +23,7 @@ const Form = ({ name, interviewers, interviewer, onSave, onCancel }) => {
       return;
     }
 
+    setError('');
     onSave(studentName, interviewerId);
   };
 
@@ -34,7 +35,7 @@ const Form = ({ name, interviewers, interviewer, onSave, onCancel }) => {
             className="appointment__create-input text--semi-bold"
             name="name"
             type="text"
-            placeholder={name || 'Enter Student Name'}
+            placeholder={'Enter Student Name'}
             value={studentName}
             onChange={event => setStudentName(event.target.value)}
             data-testid="student-name-input"
