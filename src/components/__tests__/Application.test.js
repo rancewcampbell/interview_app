@@ -11,8 +11,6 @@ import {
   getByPlaceholderText,
   queryByText,
   queryByAltText,
-  prettyDOM,
-  wait,
 } from '@testing-library/react';
 
 import axios from 'axios';
