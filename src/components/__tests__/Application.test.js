@@ -12,12 +12,11 @@ import Application from 'components/Application';
 afterEach(cleanup);
 
 describe('Appointment', () => {
-  it('defaults to Monday and changes the schedule when a new day is selected', () => {
+  it('defaults to Monday and changes the schedule when a new day is selected', async () => {
     const { getByText, queryByText } = render(<Application />);
-    return waitForElement(() => getByText('Monday')).then(() => {
-      fireEvent.click(getByText('Tuesday'));
-      expect(getByText('Leopold Silvers')).toBeInTheDocument();
-      expect(queryByText('Archie Cohen')).toBeNull();
-    });
+    await waitForElement(() => getByText('Monday'));
+    fireEvent.click(getByText('Tuesday'));
+    expect(getByText('Leopold Silvers')).toBeInTheDocument();
+    expect(queryByText('Archie Cohen')).toBeNull();
   });
 });
