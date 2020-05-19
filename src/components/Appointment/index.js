@@ -77,7 +77,7 @@ const Appointment = ({
   }, [mode, transition, interview]);
 
   return (
-    <article className="appointment">
+    <article className="appointment" data-testid="appointment">
       <Header time={time} />
       {mode === ERROR && <Error onClose={back} message={message} />}
       {mode === SAVE && <Status message="Saving" />}
