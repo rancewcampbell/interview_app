@@ -6,10 +6,10 @@ import {
   waitForElement,
   fireEvent,
   getByText,
-  prettyDOM,
   getAllByTestId,
   getByAltText,
   getByPlaceholderText,
+  queryByText,
 } from '@testing-library/react';
 
 import Application from 'components/Application';
@@ -29,12 +29,16 @@ describe('Appointment', () => {
     const { container } = render(<Application />);
     await waitForElement(() => getByText(container, 'Archie Cohen'));
     const appointment = getAllByTestId(container, 'appointment')[0];
-    console.log(prettyDOM(appointment));
     fireEvent.click(getByAltText(appointment, 'Add'));
-    fireEvent.change(getByPlaceholderText(appointment, 'Enter Student Name'), {
+    fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
       target: { value: 'Lydia Miller-Jones' },
     });
     fireEvent.click(getByAltText(appointment, 'Sylvia Palmer'));
     fireEvent.click(getByText(appointment, 'Save'));
+    expect(getByText(appointment, 'Saving')).toBeInTheDocument();
+    await waitForElement(() => getByText(appointment, 'Lydia Miller-Jones'));
+    const days = getAllByTestId(container, 'day');
+    const day = days.find(el => queryByText(el, 'Monday'));
+    expect(getByText(day, /no spots remaining/i));
   });
 });

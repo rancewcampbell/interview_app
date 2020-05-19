@@ -19,7 +19,7 @@ const DayListItem = ({ name, spots, selected, setDay }) => {
   }
 
   return (
-    <li className={dayClass} onClick={setDay}>
+    <li data-testid="day" className={dayClass} onClick={setDay}>
       <h2 className="text--regular">{name}</h2>
       <h3 className="text--light">{message}</h3>
     </li>
