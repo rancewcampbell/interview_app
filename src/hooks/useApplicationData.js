@@ -75,7 +75,7 @@ const useApplicationData = () => {
 
   useEffect(() => {
     if (socket.readyState > 1) {
-      socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+      socket = new WebSocket('wss://interview-rwc.herokuapp.com/');
     }
 
     socket.onerror = event => {
