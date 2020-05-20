@@ -6,7 +6,7 @@ import reducer, {
   SET_APPLICATION_DATA,
   SET_DAY,
 } from '../reducers/application';
-
+console.log('process.env:', process.env);
 let socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
 
 const useApplicationData = () => {
