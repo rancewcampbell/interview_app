@@ -4,7 +4,7 @@ export const SET_INTERVIEW = 'SET_INTERVIEW';
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case SET_DAY:
+    case SET_DA:
       return { ...state, day: action.day };
     case SET_APPLICATION_DATA:
       return {
