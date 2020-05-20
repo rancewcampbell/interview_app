@@ -8,7 +8,7 @@ import reducer, {
 } from '../reducers/application';
 
 console.log(process.env);
-let socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+let socket = new WebSocket('wss://interview-rwc.herokuapp.com/');
 
 const useApplicationData = () => {
   const [state, dispatch] = useReducer(reducer, {
