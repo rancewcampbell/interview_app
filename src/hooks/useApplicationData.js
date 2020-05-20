@@ -7,8 +7,7 @@ import reducer, {
   SET_DAY,
 } from '../reducers/application';
 
-console.log(process.env);
-let socket = new WebSocket('wss://interview-rwc.herokuapp.com/');
+// let socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
 
 const useApplicationData = () => {
   const [state, dispatch] = useReducer(reducer, {
@@ -63,29 +62,29 @@ const useApplicationData = () => {
     });
   }, []);
 
-  useEffect(() => {
-    socket.onmessage = message => {
-      const { type, id, interview } = JSON.parse(message.data);
-      if (type === SET_INTERVIEW) {
-        const { days, appointments } = updateInterview(id, interview);
-        dispatch({ type, days, appointments });
-      }
-    };
-  }, [updateInterview]);
+  // useEffect(() => {
+  //   socket.onmessage = message => {
+  //     const { type, id, interview } = JSON.parse(message.data);
+  //     if (type === SET_INTERVIEW) {
+  //       const { days, appointments } = updateInterview(id, interview);
+  //       dispatch({ type, days, appointments });
+  //     }
+  //   };
+  // }, [updateInterview]);
 
-  useEffect(() => {
-    if (socket.readyState > 1) {
-      socket = new WebSocket('wss://interview-rwc.herokuapp.com/');
-    }
+  // useEffect(() => {
+  //   if (socket.readyState > 1) {
+  //     socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+  //   }
 
-    socket.onerror = event => {
-      console.error('error:', event);
-    };
+  //   socket.onerror = event => {
+  //     console.error('error:', event);
+  //   };
 
-    return () => {
-      socket.close();
-    };
-  }, []);
+  //   return () => {
+  //     socket.close();
+  //   };
+  // }, []);
 
   return { bookInterview, setDay, cancelInterview, state };
 };
