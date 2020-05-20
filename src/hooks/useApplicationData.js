@@ -36,26 +36,22 @@ const useApplicationData = () => {
 
   const bookInterview = (id, interview) => {
     const { days, appointments } = updateInterview(id, interview);
-    return axios
-      .put(`http://localhost:8001/api/appointments/${id}`, { interview })
-      .then(() => {
-        dispatch({ type: SET_INTERVIEW, days, appointments });
-      });
+    return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
+      dispatch({ type: SET_INTERVIEW, days, appointments });
+    });
   };
 
   const cancelInterview = id => {
     const { days, appointments } = updateInterview(id);
-    return axios
-      .delete(`http://localhost:8001/api/appointments/${id}`)
-      .then(() => {
-        dispatch({ type: SET_INTERVIEW, days, appointments });
-      });
+    return axios.delete(`/api/appointments/${id}`).then(() => {
+      dispatch({ type: SET_INTERVIEW, days, appointments });
+    });
   };
 
   useEffect(() => {
-    const promise1 = axios.get('http://localhost:8001/api/days');
-    const promise2 = axios.get('http://localhost:8001/api/appointments');
-    const promise3 = axios.get('http://localhost:8001/api/interviewers');
+    const promise1 = axios.get('/api/days');
+    const promise2 = axios.get('/api/appointments');
+    const promise3 = axios.get('/api/interviewers');
     Promise.all([promise1, promise2, promise3]).then(all => {
       dispatch({
         type: SET_APPLICATION_DATA,
