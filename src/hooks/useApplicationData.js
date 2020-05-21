@@ -18,6 +18,7 @@ const useApplicationData = () => {
   });
   const setDay = day => dispatch({ type: SET_DAY, day });
 
+  // create days and appointment objects w/ updated state
   const updateInterview = useCallback(
     (id, interview = null) => {
       const appointment = {
@@ -48,6 +49,7 @@ const useApplicationData = () => {
     });
   };
 
+  // get initial data from api
   useEffect(() => {
     const promise1 = axios.get('/api/days');
     const promise2 = axios.get('/api/appointments');
@@ -62,6 +64,7 @@ const useApplicationData = () => {
     });
   }, []);
 
+  // update state w/ incoming data from API
   useEffect(() => {
     socket.onmessage = message => {
       const { type, id, interview } = JSON.parse(message.data);
@@ -72,6 +75,7 @@ const useApplicationData = () => {
     };
   }, [updateInterview]);
 
+  // create websocket connection if old connection disconnects and handle error if necessary
   useEffect(() => {
     if (socket.readyState > 1) {
       socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);

@@ -28,12 +28,14 @@ const Appointment = ({
   const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
   const [message, setMessage] = useState('');
   let interviewer;
+
   if (interviewers) {
     interviewer = interviewers.find(
       el => interview && el.id === interview.interviewer
     );
   }
 
+  // Handle save event
   const save = (name, interviewer) => {
     const interview = {
       student: name,
@@ -50,11 +52,13 @@ const Appointment = ({
       });
   };
 
+  // Confirm message before delete
   const confirm = () => {
     setMessage('Are you sure you would like to delete?');
     transition(CONFIRM);
   };
 
+  // Handle delete event
   const deleteInterview = () => {
     transition(DELETE, true);
     cancelInterview(id, interview)

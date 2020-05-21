@@ -1,3 +1,5 @@
+// Helper function to update the spots counter on Day List
+
 const updateSpots = (state, appointments) => {
   const originalInterview = state.days.find(d => d.name === state.day);
   const index = state.days.indexOf(originalInterview);
